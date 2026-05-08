@@ -130,11 +130,3 @@ html {
   scroll-behavior: smooth;
 }
 
-.snap-y-wrapper {
-  scroll-snap-type: y proximity;
-  -webkit-overflow-scrolling: touch;
-}
-
-.snap-screen {
-  scroll-snap-align: start;
-}

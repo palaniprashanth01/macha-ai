@@ -145,13 +145,13 @@ export default function Page() {
   }
 
   return (
-    <main className="snap-y-wrapper relative min-h-screen w-full overflow-x-hidden px-4 py-8 sm:py-12">
+    <main className="relative min-h-screen w-full overflow-x-hidden px-4 py-8 sm:py-12">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] dot-grid opacity-50" />
 
       <div className="mx-auto max-w-5xl">
         <IntroScrollTease />
 
-        <section className="snap-screen pt-8 sm:pt-12">
+        <section className="pt-8 sm:pt-12">
           <header className="mb-8 flex items-center justify-between">
             <a href="/" className="flex flex-col gap-0.5">
               <Wordmark />
@@ -396,7 +396,7 @@ function IntroScrollTease() {
 
   return (
     <section className="mb-4">
-      <div className="snap-screen flex min-h-[88svh] flex-col items-center justify-center text-center">
+      <div className="flex min-h-[88svh] flex-col items-center justify-center text-center">
         <p className="stagger in text-5xl font-semibold tracking-tight sm:text-7xl md:text-8xl">
           <span>epdi</span>
           <span>iruka</span>
@@ -407,7 +407,7 @@ function IntroScrollTease() {
         </p>
       </div>
 
-      <div ref={sectionRef} className="snap-screen flex min-h-[82svh] flex-col items-center justify-center text-center">
+      <div ref={sectionRef} className="flex min-h-[82svh] flex-col items-center justify-center text-center">
         <p className={`stagger text-5xl font-semibold tracking-tight sm:text-7xl md:text-8xl ${revealed ? "in" : ""}`}>
           <span>macha</span>
           <span>ithoo...</span>
