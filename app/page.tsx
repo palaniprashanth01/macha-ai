@@ -172,18 +172,15 @@ export default function Page() {
             Hinglish · Tanglish · Code-mix
           </div>
           <h2 className="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Three rewrites,{" "}
+            Hinglish &amp; Tanglish,{" "}
             <span className="bg-gradient-to-br from-orange-300 via-orange-500 to-pink-500 bg-clip-text text-transparent">
-              calibrated
-            </span>{" "}
-            <br className="hidden sm:block" />
-            for the way you actually post.
+              the way you post.
+            </span>
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-400 sm:text-lg">
-            Type or speak a draft. Pick a platform. Get three versions —
-            more native, balanced, more English — and hear them back in a real
-            Indian voice. With a side-by-side look at what an untuned model would
-            have written.
+            Type or speak a rough draft. Pick where you&apos;re posting. Get three
+            versions to choose from &mdash; more Hindi/Tamil, balanced, or more
+            English &mdash; and hear them read aloud in a real Indian voice.
           </p>
         </section>
 
@@ -314,15 +311,16 @@ export default function Page() {
                   className="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-200"
                 >
                   <span className="text-orange-500">{naiveOpen ? "▾" : "▸"}</span>
-                  See what a naive prompt produces (Llama 3.3 70B, no tuning)
+                  See the same draft with no tuning
                 </button>
                 {naiveOpen && (
                   <div className="mt-3 rounded-xl border border-neutral-800 bg-panel p-5">
                     <p className="mb-3 text-sm text-neutral-500">
-                      The naive prompt usually translates instead of code-mixing,
-                      drops particles like <span className="text-neutral-300">yaar</span>
-                      /<span className="text-neutral-300">da</span>, or
-                      over-formalises the tone.
+                      Without tuning, the model usually translates instead of
+                      code-mixing, drops everyday words like{" "}
+                      <span className="text-neutral-300">yaar</span> or{" "}
+                      <span className="text-neutral-300">da</span>, or sounds
+                      too formal.
                     </p>
                     <pre className="whitespace-pre-wrap break-words font-sans text-base leading-relaxed text-neutral-200">
                       {result.naive}
@@ -341,15 +339,15 @@ export default function Page() {
           <div className="grid gap-3 sm:grid-cols-3">
             <ProviderCard
               name="Gemini 2.5 Flash"
-              role="Tuned rewrite (structured JSON, taxonomy + few-shot)"
+              role="Writes the three calibrated rewrites"
             />
             <ProviderCard
               name="Groq · Llama 3.3 70B"
-              role="Naive baseline (the demo contrast)"
+              role="The untuned baseline you compare against"
             />
             <ProviderCard
               name="Sarvam"
-              role="Indian voices in & out (saarika · bulbul)"
+              role="Listens to your voice and reads the rewrites aloud"
             />
           </div>
         </section>
