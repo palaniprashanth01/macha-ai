@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Platform = "instagram" | "x" | "whatsapp";
 
@@ -145,46 +145,49 @@ export default function Page() {
   }
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden px-4 py-8 sm:py-12">
+    <main className="snap-y-wrapper relative h-screen w-full overflow-y-auto overflow-x-hidden px-4 py-8 sm:py-12">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] dot-grid opacity-50" />
 
       <div className="mx-auto max-w-5xl">
-        <header className="mb-8 flex items-center justify-between">
-          <a href="/" className="flex flex-col gap-0.5">
-            <Wordmark />
-            <span className="pl-0.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500">
-              your language. <span className="text-orange-500">tuned.</span>
-            </span>
-          </a>
-          <a
-            href="https://github.com/palaniprashanth01/macha-ai"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden items-center gap-1.5 rounded-full border border-neutral-800 px-3 py-1 text-xs text-neutral-400 transition hover:border-neutral-700 hover:text-neutral-100 sm:flex"
-          >
-            <GithubIcon /> GitHub
-          </a>
-        </header>
+        <IntroScrollTease />
 
-        <section className="mb-10 max-w-3xl">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs text-orange-300">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange-400" />
-            Hinglish · Tanglish · Code-mix
-          </div>
-          <h2 className="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Hinglish &amp; Tanglish,{" "}
-            <span className="bg-gradient-to-br from-orange-300 via-orange-500 to-pink-500 bg-clip-text text-transparent">
-              the way you post.
-            </span>
-          </h2>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-400 sm:text-lg">
-            Type or speak a rough draft. Pick where you&apos;re posting. Get three
-            versions to choose from &mdash; more Hindi/Tamil, balanced, or more
-            English &mdash; and hear them read aloud in a real Indian voice.
-          </p>
-        </section>
+        <section className="snap-screen pt-8 sm:pt-12">
+          <header className="mb-8 flex items-center justify-between">
+            <a href="/" className="flex flex-col gap-0.5">
+              <Wordmark />
+              <span className="pl-0.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500">
+                your language. <span className="text-orange-500">tuned.</span>
+              </span>
+            </a>
+            <a
+              href="https://github.com/palaniprashanth01/macha-ai"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden items-center gap-1.5 rounded-full border border-neutral-800 px-3 py-1 text-xs text-neutral-400 transition hover:border-neutral-700 hover:text-neutral-100 sm:flex"
+            >
+              <GithubIcon /> GitHub
+            </a>
+          </header>
 
-        <section className="glow-ring rounded-2xl border border-neutral-800 bg-panel/80 p-5 backdrop-blur-sm sm:p-6">
+          <section className="mb-10 max-w-3xl">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs text-orange-300">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange-400" />
+              Hinglish · Tanglish · Code-mix
+            </div>
+            <h2 className="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+              Hinglish &amp; Tanglish,{" "}
+              <span className="bg-gradient-to-br from-orange-300 via-orange-500 to-pink-500 bg-clip-text text-transparent">
+                the way you post.
+              </span>
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-400 sm:text-lg">
+              Type or speak a rough draft. Pick where you&apos;re posting. Get three
+              versions to choose from &mdash; more Hindi/Tamil, balanced, or more
+              English &mdash; and hear them read aloud in a real Indian voice.
+            </p>
+          </section>
+
+          <section className="glow-ring rounded-2xl border border-neutral-800 bg-panel/80 p-5 backdrop-blur-sm sm:p-6">
           <div className="mb-4 flex flex-wrap gap-2">
             {(Object.keys(PLATFORM_LABELS) as Platform[]).map((p) => (
               <button
@@ -227,7 +230,7 @@ export default function Page() {
                   : "border-neutral-700 bg-neutral-900 text-neutral-300 hover:border-orange-500/60 hover:text-orange-400"
               }`}
             >
-              {recState === "transcribing" ? "…" : "●"}
+              {recState === "transcribing" ? "…" : <MicIcon />}
             </button>
           </div>
 
@@ -255,6 +258,7 @@ export default function Page() {
               {loading ? "Rewriting…" : "Rewrite"}
             </button>
           </div>
+          </section>
         </section>
 
         {error && (
@@ -370,6 +374,52 @@ export default function Page() {
   );
 }
 
+function IntroScrollTease() {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.some((entry) => entry.isIntersecting);
+        if (hit) setRevealed(true);
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="mb-4">
+      <div className="snap-screen flex min-h-[88svh] flex-col items-center justify-center text-center">
+        <p className="stagger in text-5xl font-semibold tracking-tight sm:text-7xl md:text-8xl">
+          <span>epdi</span>
+          <span>iruka</span>
+          <span>machi...</span>
+        </p>
+        <p className="scroll-cue mt-8 text-xs font-medium uppercase tracking-[0.28em] text-neutral-500">
+          ↓ scroll ↓
+        </p>
+      </div>
+
+      <div ref={sectionRef} className="snap-screen flex min-h-[82svh] flex-col items-center justify-center text-center">
+        <p className={`stagger text-5xl font-semibold tracking-tight sm:text-7xl md:text-8xl ${revealed ? "in" : ""}`}>
+          <span>macha</span>
+          <span>ithoo...</span>
+        </p>
+        <p className="mt-6 text-2xl font-semibold text-orange-300 sm:text-3xl">
+          macha.ai try pannu <span className="sparkle">✨</span>
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function Wordmark() {
   return (
     <span
@@ -405,6 +455,17 @@ function GithubIcon() {
         clipRule="evenodd"
         d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.31.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"
       />
+    </svg>
+  );
+}
+
+function MicIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.9">
+      <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 1 0 6 0V6a3 3 0 0 0-3-3Z" />
+      <path d="M6.5 11.5v.5a5.5 5.5 0 0 0 11 0v-.5" />
+      <path d="M12 17.5V21" />
+      <path d="M9 21h6" />
     </svg>
   );
 }
