@@ -131,11 +131,10 @@ html {
 }
 
 .snap-y-wrapper {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   -webkit-overflow-scrolling: touch;
 }
 
 .snap-screen {
   scroll-snap-align: start;
-  scroll-snap-stop: always;
 }

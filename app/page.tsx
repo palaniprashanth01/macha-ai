@@ -145,7 +145,7 @@ export default function Page() {
   }
 
   return (
-    <main className="snap-y-wrapper relative h-screen w-full overflow-y-auto overflow-x-hidden px-4 py-8 sm:py-12">
+    <main className="snap-y-wrapper relative min-h-screen w-full overflow-x-hidden px-4 py-8 sm:py-12">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] dot-grid opacity-50" />
 
       <div className="mx-auto max-w-5xl">
