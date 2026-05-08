@@ -16,6 +16,18 @@ interface TunedResult {
 
 const VALID_PLATFORMS: Platform[] = ["instagram", "x", "whatsapp"];
 
+function fallbackTunedFromText(input: string): TunedResult {
+  const text = input.trim();
+  return {
+    language: "hinglish",
+    native_pct: 50,
+    english_pct: 50,
+    more_native: text,
+    balanced: text,
+    more_english: text,
+  };
+}
+
 async function callGemini(prompt: string): Promise<TunedResult> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error("GEMINI_API_KEY not set");
@@ -126,10 +138,31 @@ export async function POST(req: NextRequest) {
   ]);
 
   if (tunedRes.status === "rejected") {
-    return NextResponse.json(
-      { error: "Tuned pipeline failed", detail: String(tunedRes.reason?.message ?? tunedRes.reason) },
-      { status: 500 }
-    );
+    const reason = String(tunedRes.reason?.message ?? tunedRes.reason);
+    const naive = naiveRes.status === "fulfilled" ? naiveRes.value : null;
+
+    if (naive) {
+      return NextResponse.json({
+        tuned: fallbackTunedFromText(naive),
+        naive,
+        warning: "Gemini tuning unavailable; showing fallback rewrite.",
+      });
+    }
+
+    const naiveReason =
+      naiveRes.status === "rejected"
+        ? String(naiveRes.reason?.message ?? naiveRes.reason)
+        : null;
+
+    return NextResponse.json({
+      tuned: fallbackTunedFromText(draft),
+      naive: null,
+      warning: "Providers unavailable; showing draft fallback.",
+      detail: {
+        gemini: reason,
+        groq: naiveReason,
+      },
+    });
   }
 
   const naive = naiveRes.status === "fulfilled" ? naiveRes.value : null;
