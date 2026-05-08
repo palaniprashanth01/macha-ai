@@ -150,10 +150,10 @@ export default function Page() {
 
       <div className="mx-auto max-w-5xl">
         <header className="mb-8 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2.5">
-            <LogoMark />
-            <span className="text-2xl font-semibold tracking-tight">
-              Macha<span className="text-orange-500">.ai</span>
+          <a href="/" className="flex flex-col gap-0.5">
+            <Wordmark />
+            <span className="pl-0.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-neutral-500">
+              your language. <span className="text-orange-500">tuned.</span>
             </span>
           </a>
           <a
@@ -372,16 +372,29 @@ export default function Page() {
   );
 }
 
-function LogoMark() {
+function Wordmark() {
   return (
-    <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 via-orange-500 to-pink-500 text-black shadow-lg shadow-orange-500/30">
-      <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
-        <path
-          d="M4 6.5a2.5 2.5 0 0 1 2.5-2.5h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4 3.5v-3.5h-1.5A.5.5 0 0 1 4 16.5v-10z"
-          fill="currentColor"
-        />
-        <path d="M8 9h8M8 12h5" stroke="#0a0a0a" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
+    <span
+      aria-label="macha.ai"
+      className="flex items-baseline font-extrabold leading-none tracking-tight text-neutral-100"
+      style={{ fontSize: "2rem" }}
+    >
+      <span className="text-orange-500">ma</span>
+      <span className="relative inline-block">
+        <span className="text-orange-500">c</span>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-0 top-0 text-neutral-100"
+          style={{ clipPath: "inset(0 0 0 50%)" }}
+        >
+          c
+        </span>
+      </span>
+      <span>ha</span>
+      <span className="ml-[1px] text-[1.1rem] font-extrabold">
+        <span className="text-orange-500">.</span>
+        <span>ai</span>
+      </span>
     </span>
   );
 }
